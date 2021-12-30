@@ -7,6 +7,10 @@ import warnings
 from torch.autograd import Variable
 from torchvision import datasets, transforms
 
+import warnings
+warnings.simplefilter("ignore", UserWarning)
+warnings.simplefilter("ignore", RuntimeWarning)
+
 import dataset
 from darknet import Darknet
 from utils import *
@@ -52,6 +56,7 @@ def valid(datacfg, modelcfg, weightfile):
     testing_error_trans = 0.0
     testing_error_angle = 0.0
     testing_error_pixel = 0.0
+    iou_acc = []
     errs_2d             = []
     errs_3d             = []
     errs_trans          = []
@@ -102,8 +107,8 @@ def valid(datacfg, modelcfg, weightfile):
     kwargs = {'num_workers': 4, 'pin_memory': True}
     test_loader = torch.utils.data.DataLoader(valid_dataset, batch_size=1, shuffle=False, **kwargs) 
 
-    logging("   Testing {}...".format(name))
-    logging("   Number of test samples: %d" % len(test_loader.dataset))
+    #logging("   Testing {}...".format(name))
+    # logging("   Number of test samples: %d" % len(test_loader.dataset))
     # Iterate through test batches (Batch size for test data is 1)
     count = 0
     for batch_idx, (data, target) in enumerate(test_loader):
@@ -151,6 +156,10 @@ def valid(datacfg, modelcfg, weightfile):
                 corners2D_pr[:, 1] = corners2D_pr[:, 1] * im_height
                 preds_corners2D.append(corners2D_pr)
                 gts_corners2D.append(corners2D_gt)
+
+                # Compute IOU
+                iou = compute_convexhull_iou(corners2D_gt, corners2D_pr)
+                iou_acc.append(iou)
 
                 # Compute corner prediction error
                 corner_norm = np.linalg.norm(corners2D_gt - corners2D_pr, axis=1)
@@ -210,6 +219,7 @@ def valid(datacfg, modelcfg, weightfile):
     # Compute 2D projection error, 6D pose error, 5cm5degree error
     px_threshold = 10 # 5 pixel threshold for 2D reprojection error is standard in recent sota 6D object pose estimation works
     eps          = 1e-5
+    total_iou    = len(np.where(np.array(iou_acc) >= 0.5)[0]) * 100 / (len(iou_acc) + eps)
     acc          = len(np.where(np.array(errs_2d) <= px_threshold)[0]) * 100. / (len(errs_2d)+eps)
     acc5cm5deg   = len(np.where((np.array(errs_trans) <= 0.05) & (np.array(errs_angle) <= 5))[0]) * 100. / (len(errs_trans)+eps)
     acc3d10      = len(np.where(np.array(errs_3d) <= diam * 0.1)[0]) * 100. / (len(errs_3d)+eps)
@@ -219,34 +229,30 @@ def valid(datacfg, modelcfg, weightfile):
     mean_corner_err_2d = np.mean(errs_corner2D)
     nts = float(testing_samples)
 
-    if testtime:
-        print('-----------------------------------')
-        print('  tensor to cuda : %f' % (t2 - t1))
-        print('    forward pass : %f' % (t3 - t2))
-        print('get_region_boxes : %f' % (t4 - t3))
-        print(' prediction time : %f' % (t4 - t1))
-        print('            eval : %f' % (t5 - t4))
-        print('-----------------------------------')
+#    if testtime:
+#        print('-----------------------------------')
+#        print('  tensor to cuda : %f' % (t2 - t1))
+#        print('    forward pass : %f' % (t3 - t2))
+#        print('get_region_boxes : %f' % (t4 - t3))
+#        print(' prediction time : %f' % (t4 - t1))
+#        print('            eval : %f' % (t5 - t4))
+#        print('-----------------------------------')
 
     # Print test statistics
     logging('Results of {}'.format(name))
-    logging('   Acc using {} px 2D Projection = {:.2f}%'.format(px_threshold, acc))
-    logging('   Acc using 10% threshold - {} vx 3D Transformation = {:.2f}%'.format(diam * 0.1, acc3d10))
-    logging('   Acc using 5 cm 5 degree metric = {:.2f}%'.format(acc5cm5deg))
-    logging("   Mean 2D pixel error is %f, Mean vertex error is %f, mean corner error is %f" % (mean_err_2d, np.mean(errs_3d), mean_corner_err_2d))
-    logging('   Translation error: %f m, angle error: %f degree, pixel error: % f pix' % (testing_error_trans/nts, testing_error_angle/nts, testing_error_pixel/nts) )
-
-    if save:
-        predfile = backupdir + '/predictions_linemod_' + name +  '.mat'
-        scipy.io.savemat(predfile, {'R_gts': gts_rot, 't_gts':gts_trans, 'corner_gts': gts_corners2D, 'R_prs': preds_rot, 't_prs':preds_trans, 'corner_prs': preds_corners2D})
+    logging('   Acc. using {} px 2D Projection = {:.2f}%'.format(px_threshold, acc))
+    logging('   Acc. using Intersection Of Union (IoU) = {:.2f}%'.format(total_iou))
+#    if save:
+#        predfile = backupdir + '/predictions_linemod_' + name +  '.mat'
+#        scipy.io.savemat(predfile, {'R_gts': gts_rot, 't_gts':gts_trans, 'corner_gts': gts_corners2D, 'R_prs': preds_rot, 't_prs':preds_trans, 'corner_prs': preds_corners2D})
 
 if __name__ == '__main__':
 
     # Parse configuration files
     parser = argparse.ArgumentParser(description='SingleShotPose')
-    parser.add_argument('--datacfg', type=str, default='cfg/ape.data') # data config
-    parser.add_argument('--modelcfg', type=str, default='cfg/yolo-pose.cfg') # network config
-    parser.add_argument('--weightfile', type=str, default='backup/ape/model_backup.weights') # imagenet initialized weights
+    parser.add_argument('--datacfg', type=str, default='../data/070308/070308.data') # data config
+    parser.add_argument('--modelcfg', type=str, default='../cfg/yolo-pose.cfg') # network config
+    parser.add_argument('--weightfile', type=str, default='../data/070308/models/model.weights') # imagenet initialized weights
     args       = parser.parse_args()
     datacfg    = args.datacfg
     modelcfg   = args.modelcfg
