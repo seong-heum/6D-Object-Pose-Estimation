@@ -276,6 +276,7 @@ def valid(datacfg, modelcfg, weightfile):
 
     if save:
         fid = open("experimental_results/{}.txt".format(name), "w")
+        #fid = open("data/{}.txt".format(name), "w")
         fid.write("{:.2f} {:.2f} {:.2f} {:.2f} {:.2f}".format( testing_error_pixel/nts, testing_error_trans/nts, testing_error_angle/nts, acc, total_iou))
         fid.close()
 
@@ -288,9 +289,9 @@ if __name__ == '__main__':
 
     # Parse configuration files
     parser = argparse.ArgumentParser(description='SingleShotPose')
-    parser.add_argument('--datacfg', type=str, default='../data/070308/070308.data') # data config
-    parser.add_argument('--modelcfg', type=str, default='../cfg/yolo-pose.cfg') # network config
-    parser.add_argument('--weightfile', type=str, default='../data/070308/models/model.weights') # imagenet initialized weights
+    parser.add_argument('--datacfg', type=str, default='data/070308/070308.data') # data config
+    parser.add_argument('--modelcfg', type=str, default='data/070308/models/yolo-pose.cfg') # network config
+    parser.add_argument('--weightfile', type=str, default='data/070308/models/model.weights') # imagenet initialized weights
     args       = parser.parse_args()
     datacfg    = args.datacfg
     modelcfg   = args.modelcfg
