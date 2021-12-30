@@ -7,7 +7,7 @@ step 1) ./build.sh <br>
 <br>
 
 ## prepare
-step 2) ./prepare.sh 050311 <br>
+step 2) ./prepare.sh 030102 <br>
 
 ./test_datasets/ <br>
 --> [030102](https://www.dropbox.com/s/ydtnhwvysg2fvvo/030102.zip?dl=0) <br>
@@ -44,5 +44,5 @@ step 2) ./prepare.sh 050311 <br>
 <br>
 
 ## run
-step 3) ./run.sh 050311 <br>
+step 3) ./run.sh 030102 <br>
 <br>
