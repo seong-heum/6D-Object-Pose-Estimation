@@ -1,4 +1,4 @@
-# nia-ssp
+# nia-ssp (https://github.com/seongheum-ssu/nia-ssp)
 # >> run.sh <br>
 <br>
 
