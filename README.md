@@ -7,11 +7,11 @@
 <br>
 
 ## docker image 생성 --> build.sh
-step 1) ./build.sh <br>
+> ./build.sh <br>
 <br>
 
 ## 객체 ID 별 자료 준비 --> prepare.sh
-step 2) ./prepare.sh 100211 <br>
+> ./prepare.sh 100211 <br>
 
 ./test_datasets/ <br>
 --> [030102](https://www.dropbox.com/s/ydtnhwvysg2fvvo/030102.zip?dl=0) <br>
@@ -48,7 +48,7 @@ step 2) ./prepare.sh 100211 <br>
 <br>
 
 ## 객체 ID 별 유효성 검증 --> test.sh
-step 3) ./test.sh 100211 <br>
+> ./test.sh 100211 <br>
 <br>
 
 ## 유효성 검증 보고서
