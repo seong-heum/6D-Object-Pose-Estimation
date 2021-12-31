@@ -1,8 +1,9 @@
 # nia-ssp (https://github.com/seongheum-ssu/nia-ssp)
+<br>
 
 ## build & test 전체 실행
-# >> git clone https://github.com/seongheum-ssu/nia-ssp <br>
-# >> run.sh <br>
+>> git clone https://github.com/seongheum-ssu/nia-ssp <br>
+>> run.sh <br>
 <br>
 
 ## docker image 생성 --> build.sh
