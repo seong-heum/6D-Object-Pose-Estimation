@@ -6,11 +6,12 @@
 > run.sh <br>
 <br>
 
-## docker image 생성 --> build.sh
+## 객체별 샘플링 평가
+## 1. docker image 생성 --> build.sh
 > ./build.sh <br>
 <br>
 
-## 객체 ID 별 자료 준비 --> prepare.sh
+## 2. 객체 ID 별 자료 준비 --> prepare.sh
 > ./prepare.sh 100211 <br>
 
 ./test_datasets/ <br>
@@ -47,7 +48,7 @@
 --> [100211](https://www.dropbox.com/s/2fvabie5mtwsft1/100211.zip?dl=0) <br>
 <br>
 
-## 객체 ID 별 유효성 검증 --> test.sh
+## 3. 객체 ID 별 유효성 검증 --> test.sh
 > ./test.sh 100211 <br>
 <br>
 
