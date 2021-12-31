@@ -29,17 +29,17 @@ WORKDIR /ssp
 # Conda Environment 
 ARG conda_env=NIA21
 
-COPY environment.yaml       /ssp
+COPY docker_images/cfg/environment.yaml       /ssp
 RUN conda env create -f environment.yaml
 
 ENV PATH /opt/conda/envs/$conda_env/bin:$PATH
 ENV CONDA_DEFAULT_ENV $conda_env
 
 # Deep Learning
-COPY test_datasets/src/*.py               /ssp/
+COPY docker_images/src/*.py               /ssp/
 
 #CMD python --version
 CMD python valid.py \
         --datacfg data/sample/sample.data \
-        --modelcfg cfg/yolo-pose.cfg \
-        --weightfile data/duck/sample/model_backup.weights
+        --modelcfg data/sample/models/yolo-pose.cfg \
+        --weightfile data/sample/models/model_backup.weights

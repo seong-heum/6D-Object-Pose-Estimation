@@ -13,6 +13,42 @@ from scipy import spatial
 import struct 
 import imghdr 
 
+def id2eng(id):
+    class_dict = {'0301':'0301',
+                  '0501':'0501',
+                  '0502':'0502',
+                  '0503':'0503',
+                  '0601':'0601',
+                  '0602':'0602',
+                  '0702':'0702',
+                  '0703':'0703',
+                  '0704':'0704',
+                  '0706':'0706',
+                  '0707':'0707',
+                  '0709':'0709',
+                  '0901':'0901',
+                  '0902':'0902',
+                  '1002':'1002'}
+    return class_dict[id[:4]] + str(int(id[-2:]))
+
+def id2kor(id):
+    class_dict = {'0301':'0301',
+                  '0501':'0501',
+                  '0502':'0502',
+                  '0503':'0503',
+                  '0601':'0601',
+                  '0602':'0602',
+                  '0702':'0702',
+                  '0703':'0703',
+                  '0704':'0704',
+                  '0706':'0706',
+                  '0707':'0707',
+                  '0709':'0709',
+                  '0901':'0901',
+                  '0902':'0902',
+                  '1002':'1002'}
+    return class_dict[id[:4]] + str(int(id[-2:]))
+
 # Create new directory
 def makedirs(path):
     if not os.path.exists( path ):
@@ -122,6 +158,102 @@ def compute_2d_bb(pts):
     cy = (max_y + min_y) / 2.0
     new_box = [cx, cy, w, h]
     return new_box
+
+
+def ccw(p1, p2, p3):
+    x1, y1 = p1
+    x2, y2 = p2
+    x3, y3 = p3
+    result = ((x1 * y2 + x2 * y3 + x3 * y1) - (x2 * y1 + x3 * y2 + x1 * y3))
+    return result
+
+
+def get_cross_point(gt1, gt2, pr1, pr2):
+    p = []
+    m_gt = (gt1[1] - gt2[1]) / (gt1[0] - gt2[0])
+    m_pr = (pr1[1] - pr2[1]) / (pr1[0] - pr2[0])
+    x = ((m_gt * gt2[0]) - (m_pr * pr2[0]) + pr2[1] - gt2[1]) / (m_gt - m_pr)
+    y = m_gt * (x - gt2[0]) + gt2[1]
+    if gt1[0] == gt2[0]:
+        x = gt1[0]
+        y = (m_pr * (gt1[0] - pr2[0]) + pr2[1])
+    if gt1[1] == gt2[1]:
+        x = ((gt1[1] - pr2[1]) / m_pr) + pr2[0]
+        y = gt1[1]
+    p.append(x)
+    p.append(y)
+    return p
+
+
+def compute_inner_point(gt, pr):
+    inner_point = []
+    n = 0
+    z = [0, 0]
+    hull_gt = spatial.ConvexHull(gt)
+    hull_pr = spatial.ConvexHull(pr)
+    x = hull_gt.points
+    y = hull_pr.points
+    u = hull_gt.vertices
+    v = hull_pr.vertices
+
+    for i in range(len(u)):
+        for j in range(len(v)):
+            if (ccw(z, x[u[i]], y[v[j - 1]]) * ccw(z, x[u[i]], y[v[j]])) < 0:
+                if (ccw(y[v[j - 1]], y[v[j]], z) * ccw(y[v[j - 1]], y[v[j]], x[u[i]])) < 0:
+                    n = n + 1
+        if n % 2 == 1:
+            inner_point.append(x[u[i]][0])
+            inner_point.append(x[u[i]][1])
+            n = 0
+
+    for j in range(len(v)):
+        for i in range(len(u)):
+            if ((ccw(z, y[v[j]], x[u[i - 1]]) * ccw(z, y[v[j]], x[u[i]])) < 0):
+                if ((ccw(x[u[i - 1]], x[u[i]], z) * ccw(x[u[i - 1]], x[u[i]], y[v[j]])) < 0):
+                    n = n + 1
+        if n % 2 == 1:
+            inner_point.append(y[v[j]][0])
+            inner_point.append(y[v[j]][1])
+            n = 0
+
+    return inner_point
+
+
+def compute_cross_point(gt, pr):
+    cross_point = []
+    p = []
+    hull_gt = spatial.ConvexHull(gt)
+    hull_pr = spatial.ConvexHull(pr)
+    x = hull_gt.points
+    y = hull_pr.points
+    u = hull_gt.vertices
+    v = hull_pr.vertices
+
+    for i in range(len(u)):
+        for j in range(len(v)):
+            if (ccw(x[u[i - 1]], x[u[i]], y[v[j - 1]]) * ccw(x[u[i - 1]], x[u[i]], y[v[j]])) < 0:
+                if (ccw(y[v[j - 1]], y[v[j]], x[u[i - 1]]) * ccw(y[v[j - 1]], y[v[j]], x[u[i]])) < 0:
+                    p = get_cross_point(x[u[i - 1]], x[u[i]], y[v[j - 1]], y[v[j]])
+                    cross_point = cross_point + p
+
+    return cross_point
+
+
+def compute_convexhull_iou(gt, pr):
+    cross_point = compute_cross_point(gt, pr)
+    inner_point = compute_inner_point(gt, pr)
+    all_inner_point = cross_point + inner_point
+    if len(all_inner_point) > 5:
+        all_inner_point = np.array(np.reshape(all_inner_point, [int(len(all_inner_point) / 2), 2]), dtype='float32')
+        hull_all_inner_point = spatial.ConvexHull(all_inner_point)
+        hull_gt = spatial.ConvexHull(gt)
+        hull_pr = spatial.ConvexHull(pr)
+        convexhull_iou = hull_all_inner_point.area / (hull_gt.area + hull_pr.area - hull_all_inner_point.area)
+    else:
+        convexhull_iou = 0
+
+    return convexhull_iou
+
 
 def compute_2d_bb_from_orig_pix(pts, size):
     min_x = np.min(pts[0,:]) / 640.0
