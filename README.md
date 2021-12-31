@@ -1,12 +1,15 @@
 # nia-ssp (https://github.com/seongheum-ssu/nia-ssp)
+
+# build & test 전체 실행
+# >> git clone https://github.com/seongheum-ssu/nia-ssp <br>
 # >> run.sh <br>
 <br>
 
-## build
+## docker image 생성 --> build.sh
 step 1) ./build.sh <br>
 <br>
 
-## prepare
+## 객체 ID 별 자료 준비 --> prepare.sh
 step 2) ./prepare.sh 100211 <br>
 
 ./test_datasets/ <br>
@@ -43,6 +46,11 @@ step 2) ./prepare.sh 100211 <br>
 --> [100211](https://www.dropbox.com/s/2fvabie5mtwsft1/100211.zip?dl=0) <br>
 <br>
 
-## run
-step 3) ./run.sh 100211 <br>
+## 객체 ID 별 유효성 검증 --> test.sh
+step 3) ./test.sh 100211 <br>
 <br>
+
+## 유효성 검증 보고서
+https://github.com/seongheum-ssu/nia-ssp/doc
+
+
