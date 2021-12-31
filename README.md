@@ -53,6 +53,6 @@
 <br>
 
 ## * 유효성 검증 보고서
-https://github.com/seongheum-ssu/nia-ssp/doc
+https://github.com/seongheum-ssu/nia-ssp/tree/main/docker_images/doc
 
 
