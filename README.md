@@ -44,5 +44,5 @@ step 2) ./prepare.sh 100211 <br>
 <br>
 
 ## run
-step 3) ./run.sh 030102 <br>
+step 3) ./run.sh 100211 <br>
 <br>
