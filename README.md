@@ -1,6 +1,6 @@
 # nia-ssp (https://github.com/seongheum-ssu/nia-ssp)
 
-# build & test 전체 실행
+## build & test 전체 실행
 # >> git clone https://github.com/seongheum-ssu/nia-ssp <br>
 # >> run.sh <br>
 <br>
