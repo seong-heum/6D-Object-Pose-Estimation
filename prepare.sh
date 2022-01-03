@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DATA=test_datasets
-TESTCASE=("030102" "050110" "050201" "050202" "050210" "050305" "050311" "050312" "060106" "060108" "060201" "060207" "060211" "070205" "070308" "070403" "070409" "070605" "070608" "070610" "070611" "070702" "070704" "070708" "070710" "070902" "070911" "090105" "090206" "100205" "100211")
+TESTCASE=("030102" "050110" "050201" "050202" "050210" "050305" "050311" "050312" "060106" "060108" "060201" "060207" "060211" "060302" "070205" "070308" "070403" "070409" "070605" "070608" "070610" "070611" "070702" "070704" "070708" "070710" "070902" "070911" "090105" "090206" "100205" "100211")
 
 ZIP_030102=https://www.dropbox.com/s/ydtnhwvysg2fvvo/030102.zip?dl=0
 ZIP_050110=https://www.dropbox.com/s/ld7zfoe9pr86qu2/050110.zip?dl=0
@@ -16,6 +16,7 @@ ZIP_060108=https://www.dropbox.com/s/r84wv871l88zwj7/060108.zip?dl=0
 ZIP_060201=https://www.dropbox.com/s/4cj57g1tm18mnr3/060201.zip?dl=0
 ZIP_060207=https://www.dropbox.com/s/dxwt1ast6b3cetb/060207.zip?dl=0
 ZIP_060211=https://www.dropbox.com/s/vwnucm61dlntp2b/060211.zip?dl=0
+ZIP_060302=https://www.dropbox.com/s/nk32bsbfgycpp78/060302.zip?dl=0
 ZIP_070205=https://www.dropbox.com/s/ificlxyaol943tv/070205.zip?dl=0
 ZIP_070308=https://www.dropbox.com/s/x278nx4yxc01c9r/070308.zip?dl=0
 ZIP_070403=https://www.dropbox.com/s/6ay4d8j56p3ugps/070403.zip?dl=0
@@ -35,17 +36,28 @@ ZIP_090206=https://www.dropbox.com/s/3bovmeiyka7yef5/090206.zip?dl=0
 ZIP_100205=https://www.dropbox.com/s/lt1vd49tvqeom11/100205.zip?dl=0
 ZIP_100211=https://www.dropbox.com/s/2fvabie5mtwsft1/100211.zip?dl=0
 
-for i in ${TESTCASE[@]}
-do
-	if [ $1 -eq "${i}" ]; then
-	   if [ ! -d "$DATA/${i}" ]; then
-	   	   echo Preparing ${i}
-	   	   mkdir $DATA/${i}
-	   	   str="wget \$ZIP_${i} -O $DATA/${i}/${i}.zip"
-	   	   echo $str
-	   	   eval $str
-	   	   cd $DATA/${i}
-	   	   unzip ${i}.zip
-	   fi
-	fi
-done
+if [ $1 == "report" ]; then
+	echo "report"  > "report.txt"
+	for i in ${TESTCASE[@]}
+	do
+		str="cat experimental_results/${i}.txt  >> \"report.txt\""
+		echo -ne "${i} "  >> "report.txt"
+		eval $str
+		echo ""  >> "report.txt"
+	done
+else
+	for i in ${TESTCASE[@]}
+	do
+		if [ $1 -eq "${i}" ]; then
+		   if [ ! -d "$DATA/${i}" ]; then
+		   	   echo Preparing ${i}
+		   	   mkdir $DATA/${i}
+		   	   str="wget \$ZIP_${i} -O $DATA/${i}/${i}.zip"
+		   	   echo $str
+		   	   eval $str
+		   	   cd $DATA/${i}
+		   	   unzip ${i}.zip
+		   fi
+		fi
+	done
+fi

@@ -16,6 +16,7 @@
 ./prepare.sh 060108
 ./prepare.sh 060201
 ./prepare.sh 060207
+./prepare.sh 060302
 ./prepare.sh 060211
 ./prepare.sh 070205
 ./prepare.sh 070308
@@ -50,6 +51,7 @@
 ./test.sh 060201
 ./test.sh 060207
 ./test.sh 060211
+./test.sh 060302
 ./test.sh 070205
 ./test.sh 070308
 ./test.sh 070403
