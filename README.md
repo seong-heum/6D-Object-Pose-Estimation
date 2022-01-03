@@ -17,8 +17,7 @@
 
 ### 2. 객체 ID 별 자료 준비 (샘플)--> prepare.sh
 > ./prepare.sh 100211 <br>
-
-./test_datasets/ <br>
+(평가용 데이터셋) ./test_datasets/ <br>
 --> [030102](https://www.dropbox.com/s/ydtnhwvysg2fvvo/030102.zip?dl=0) <br>
 --> [050110](https://www.dropbox.com/s/ld7zfoe9pr86qu2/050110.zip?dl=0) <br>
 --> [050201](https://www.dropbox.com/s/9fb3hnd40rhz68d/050201.zip?dl=0) <br>
@@ -55,6 +54,7 @@
 
 ### 3. 객체 ID 별 유효성 검증 --> test.sh
 > ./test.sh 100211 <br>
+(평가 결과/로그 파일) ./experimental_results/ <br>
 <br>
 
 ## * 유효성 검증 보고서
