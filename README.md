@@ -11,12 +11,14 @@
 ## * 객체별 샘플링 평가
 ### 1. docker image 생성 --> build.sh
 > ./build.sh <br>
+
 (참고) docker image 로드: ./docker load -i docker_images/nia-ssp.tar <br>
 (참고) docker image 저장: ./docker load -i docker_images/nia-ssp.tar <br>
 <br>
 
 ### 2. 객체 ID 별 자료 준비 (샘플)--> prepare.sh
 > ./prepare.sh 100211 <br>
+
 (평가용 데이터셋) ./test_datasets/ <br>
 --> [030102](https://www.dropbox.com/s/ydtnhwvysg2fvvo/030102.zip?dl=0) <br>
 --> [050110](https://www.dropbox.com/s/ld7zfoe9pr86qu2/050110.zip?dl=0) <br>
