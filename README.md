@@ -3,7 +3,8 @@
 
 ## * 전체 실행 (build & test)
 > git clone https://github.com/seongheum-ssu/nia-ssp <br>
-> run.sh <br>
+> ./build.sh (or, docker load -i docker_images/nia-ssp.tar) <br>
+> ./run.sh all <br>
 <br>
 
 ## * 객체별 샘플링 평가
