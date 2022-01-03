@@ -51,12 +51,14 @@ else
 		if [ $1 -eq "${i}" ]; then
 		   if [ ! -d "$DATA/${i}" ]; then
 		   	   echo prepare ${i}
-		   	   mkdir $DATA/${i}
-		   	   if [ ! -f "${i}.zip" ]; then
+		   	   if [ -f "$DATA/${i}.zip" ]; then
+		   	   	  mkdir $DATA/${i}
 				  mv $DATA/${1}.zip $DATA/${i}/
 		   	   	  cd $DATA/${i}
 		   	   	  unzip ${i}.zip
+
 			   else
+		   	   	  mkdir $DATA/${i}
 		   	   	  str="wget \$ZIP_${i} -O $DATA/${i}/${i}.zip"
 		   	   	  echo $str
 		   	   	  eval $str
