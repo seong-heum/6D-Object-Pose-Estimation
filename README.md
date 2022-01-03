@@ -1,18 +1,21 @@
 # nia-ssp (https://github.com/seongheum-ssu/nia-ssp)
+# 객체 3D 데이터 유효성 검증
 <br>
 
 ## * 전체 실행 (build & test)
 > git clone https://github.com/seongheum-ssu/nia-ssp <br>
-> ./build.sh (or, docker load -i docker_images/nia-ssp.tar) <br>
+> ./build.sh <br>
 > ./run.sh all <br>
 <br>
 
 ## * 객체별 샘플링 평가
 ### 1. docker image 생성 --> build.sh
 > ./build.sh <br>
+(참고) docker image 로드: ./docker load -i docker_images/nia-ssp.tar <br>
+(참고) docker image 저장: ./docker load -i docker_images/nia-ssp.tar <br>
 <br>
 
-### 2. 객체 ID 별 자료 준비 --> prepare.sh
+### 2. 객체 ID 별 자료 준비 (샘플)--> prepare.sh
 > ./prepare.sh 100211 <br>
 
 ./test_datasets/ <br>
@@ -56,5 +59,3 @@
 
 ## * 유효성 검증 보고서
 https://github.com/seongheum-ssu/nia-ssp/tree/main/docker_images/doc
-
-
