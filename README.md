@@ -12,8 +12,8 @@
 ### 1. docker image 생성 --> build.sh
 > ./build.sh <br>
 
-(참고) docker image 로드: ./docker load -i docker_images/nia-ssp.tar <br>
-(참고) docker image 저장: ./docker load -i docker_images/nia-ssp.tar <br>
+(참고) docker image 로드: docker load -i docker_images/nia-ssp.tar <br>
+(참고) docker image 저장: docker save -o docker_images/nia-ssp.tar nia-ssp:1.0 <br>
 <br>
 
 ### 2. 객체 ID 별 자료 준비 (샘플)--> prepare.sh
