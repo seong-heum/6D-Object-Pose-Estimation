@@ -1,5 +1,5 @@
 # 객체 3D 데이터 유효성 검증
-# nia-ssp (https://github.com/seongheum-ssu/nia-ssp)
+## https://github.com/seongheum-ssu/nia-ssp
 <br>
 
 ## * 전체 실행 (build & test)
