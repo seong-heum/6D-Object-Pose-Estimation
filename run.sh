@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # 1) build
-./build.sh
+#./build.sh
 
 # 2) prepare all
 ./prepare.sh 030102
@@ -16,8 +16,8 @@
 ./prepare.sh 060108
 ./prepare.sh 060201
 ./prepare.sh 060207
-./prepare.sh 060302
 ./prepare.sh 060211
+./prepare.sh 060302
 ./prepare.sh 070205
 ./prepare.sh 070308
 ./prepare.sh 070403

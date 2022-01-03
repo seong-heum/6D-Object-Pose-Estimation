@@ -50,13 +50,19 @@ else
 	do
 		if [ $1 -eq "${i}" ]; then
 		   if [ ! -d "$DATA/${i}" ]; then
-		   	   echo Preparing ${i}
+		   	   echo prepare ${i}
 		   	   mkdir $DATA/${i}
-		   	   str="wget \$ZIP_${i} -O $DATA/${i}/${i}.zip"
-		   	   echo $str
-		   	   eval $str
-		   	   cd $DATA/${i}
-		   	   unzip ${i}.zip
+		   	   if [ ! -f "${i}.zip" ]; then
+				  mv $DATA/${1}.zip $DATA/${i}/
+		   	   	  cd $DATA/${i}
+		   	   	  unzip ${i}.zip
+			   else
+		   	   	  str="wget \$ZIP_${i} -O $DATA/${i}/${i}.zip"
+		   	   	  echo $str
+		   	   	  eval $str
+		   	   	  cd $DATA/${i}
+		   	   	  unzip ${i}.zip
+			   fi			
 		   fi
 		fi
 	done
