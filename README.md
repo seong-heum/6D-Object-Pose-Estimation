@@ -56,6 +56,7 @@
 
 ### 3. 객체 ID 별 유효성 검증 --> test.sh
 > ./test.sh 100211 <br>
+
 (평가 결과/로그 파일) ./experimental_results/ <br>
 <br>
 
