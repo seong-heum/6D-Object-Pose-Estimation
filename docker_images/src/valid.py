@@ -7,6 +7,7 @@ import warnings
 from torch.autograd import Variable
 from torchvision import datasets, transforms
 
+import datetime
 import warnings
 warnings.simplefilter("ignore", UserWarning)
 warnings.simplefilter("ignore", RuntimeWarning)
@@ -268,18 +269,15 @@ def valid(datacfg, modelcfg, weightfile):
 #        print('-----------------------------------')
 
     # Print test statistics
-    logging('Results of {}'.format(name))
+    logging('Results of {} ({})'.format(name, datetime.datetime.now()))
     logging('   Mean Err. (Pixel Dist.) = {:.2f} pix.'.format(testing_error_pixel/nts))
-    logging('   Translation Err. = {:.2f}, Angle Err. = {:.2f}'.format(testing_error_trans/nts, testing_error_angle/nts))
     logging('   Acc. using {} px 2D Projection = {:.2f}%'.format(px_threshold, acc))
     logging('   Acc. using Intersection Of Union (IoU) = {:.2f}%'.format(total_iou))
 
     if save:
         fid = open("experimental_results/{}.txt".format(name), "w")
-        #fid = open("data/{}.txt".format(name), "w")
-        fid.write("{:.2f} {:.2f} {:.2f} {:.2f} {:.2f}".format( testing_error_pixel/nts, testing_error_trans/nts, testing_error_angle/nts, acc, total_iou))
+        fid.write("{:.2f} {:.2f} {:.2f}".format( testing_error_pixel/nts, acc, total_iou))
         fid.close()
-
 
 #    if save:
 #        predfile = backupdir + '/predictions_linemod_' + name +  '.mat'
