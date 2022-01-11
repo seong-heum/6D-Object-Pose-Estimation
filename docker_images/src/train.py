@@ -317,7 +317,8 @@ if __name__ == "__main__":
     steps         = [float(step)*nbatches for step in net_options['steps'].split(',')]
     scales        = [float(scale) for scale in net_options['scales'].split(',')]
     #bg_file_names = get_all_files('VOCdevkit/VOC2012/JPEGImages')
-    bg_file_names = get_all_files('BG/JPEGImages')
+    #bg_file_names = get_all_files('BG/JPEGImages')
+    bg_file_names = get_all_files('datasets/BG/JPEGImages')
 
     # Train parameters
     max_epochs    = int(net_options['max_epochs'])
