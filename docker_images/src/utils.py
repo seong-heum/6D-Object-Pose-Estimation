@@ -273,6 +273,196 @@ def compute_cross_point(gt, pr):
     return cross_point
 
 
+def visualize(name, frame, corners3D):
+    img = cv2.imread("data/{}/images/{}_00{}.png".format(name, name, frame))
+    cube = np.loadtxt("data/{}/models/vis/corners_{}.txt".format(name, frame))
+
+    f_cam = open("data/{}/cams/{}_00{}.txt".format(name, name, frame))
+    rdata = f_cam.readlines()
+    [fx, fy, u0, v0] = rdata[0].split(" ")
+    [fx, fy, u0, v0] = [float(fx), float(fy), float(u0), float(v0)]
+    f_cam.close()
+    intrinsic_calibration = get_camera_intrinsic(u0, v0, fx, fy)
+
+    labels = np.loadtxt("data/{}/labels/{}_00{}.txt".format(name, name, frame))
+    x1 = labels[3] * 1280;
+    y1 = labels[4] * 720;
+    x2 = labels[5] * 1280;
+    y2 = labels[6] * 720;
+    x3 = labels[7] * 1280;
+    y3 = labels[8] * 720;
+    x4 = labels[9] * 1280;
+    y4 = labels[10] * 720;
+    x5 = labels[11] * 1280;
+    y5 = labels[12] * 720;
+    x6 = labels[13] * 1280;
+    y6 = labels[14] * 720;
+    x7 = labels[15] * 1280;
+    y7 = labels[16] * 720;
+    x8 = labels[17] * 1280;
+    y8 = labels[18] * 720;
+    cv2.line(img, (int(x1), int(y1)), (int(x1), int(y1)), [0, 255, 0], 10)
+    cv2.line(img, (int(x2), int(y2)), (int(x2), int(y2)), [0, 255, 0], 10)
+    cv2.line(img, (int(x3), int(y3)), (int(x3), int(y3)), [0, 255, 0], 10)
+    cv2.line(img, (int(x4), int(y4)), (int(x4), int(y4)), [0, 255, 0], 10)
+    cv2.line(img, (int(x5), int(y5)), (int(x5), int(y5)), [0, 255, 0], 10)
+    cv2.line(img, (int(x6), int(y6)), (int(x6), int(y6)), [0, 255, 0], 10)
+    cv2.line(img, (int(x7), int(y7)), (int(x7), int(y7)), [0, 255, 0], 10)
+    cv2.line(img, (int(x8), int(y8)), (int(x8), int(y8)), [0, 255, 0], 10)
+    cv2.line(img, (int(x1), int(y1)), (int(x2), int(y2)), [0, 255, 0], 2)
+    cv2.line(img, (int(x1), int(y1)), (int(x3), int(y3)), [0, 255, 0], 2)
+    cv2.line(img, (int(x2), int(y2)), (int(x4), int(y4)), [0, 255, 0], 2)
+    cv2.line(img, (int(x3), int(y3)), (int(x4), int(y4)), [0, 255, 0], 2)
+    cv2.line(img, (int(x5), int(y5)), (int(x6), int(y6)), [0, 255, 0], 2)
+    cv2.line(img, (int(x5), int(y5)), (int(x7), int(y7)), [0, 255, 0], 2)
+    cv2.line(img, (int(x6), int(y6)), (int(x8), int(y8)), [0, 255, 0], 2)
+    cv2.line(img, (int(x7), int(y7)), (int(x8), int(y8)), [0, 255, 0], 2)
+    cv2.line(img, (int(x1), int(y1)), (int(x5), int(y5)), [0, 255, 0], 2)
+    cv2.line(img, (int(x2), int(y2)), (int(x6), int(y6)), [0, 255, 0], 2)
+    cv2.line(img, (int(x3), int(y3)), (int(x7), int(y7)), [0, 255, 0], 2)
+    cv2.line(img, (int(x4), int(y4)), (int(x8), int(y8)), [0, 255, 0], 2)
+    cv2.putText(img, '1', (int(x1) + 10, int(y1) + 10), cv2.FONT_HERSHEY_PLAIN, 3, [255, 0, 0], 3)
+    cv2.putText(img, '2', (int(x2) + 10, int(y2) + 10), cv2.FONT_HERSHEY_PLAIN, 3, [255, 0, 0], 3)
+    cv2.putText(img, '3', (int(x3) + 10, int(y3) + 10), cv2.FONT_HERSHEY_PLAIN, 3, [255, 0, 0], 3)
+    cv2.putText(img, '4', (int(x4) + 10, int(y4) + 10), cv2.FONT_HERSHEY_PLAIN, 3, [255, 0, 0], 3)
+    cv2.putText(img, '5', (int(x5) + 10, int(y5) + 10), cv2.FONT_HERSHEY_PLAIN, 3, [255, 0, 0], 3)
+    cv2.putText(img, '6', (int(x6) + 10, int(y6) + 10), cv2.FONT_HERSHEY_PLAIN, 3, [255, 0, 0], 3)
+    cv2.putText(img, '7', (int(x7) + 10, int(y7) + 10), cv2.FONT_HERSHEY_PLAIN, 3, [255, 0, 0], 3)
+    cv2.putText(img, '8', (int(x8) + 10, int(y8) + 10), cv2.FONT_HERSHEY_PLAIN, 3, [255, 0, 0], 3)
+
+    corners2D = np.zeros((9, 2))
+    corners2D[0][0] = labels[1] * 1280;
+    corners2D[0][1] = labels[2] * 720;
+    corners2D[1][0] = labels[3] * 1280;
+    corners2D[1][1] = labels[4] * 720;
+    corners2D[2][0] = labels[5] * 1280;
+    corners2D[2][1] = labels[6] * 720;
+    corners2D[3][0] = labels[7] * 1280;
+    corners2D[3][1] = labels[8] * 720;
+    corners2D[4][0] = labels[9] * 1280;
+    corners2D[4][1] = labels[10] * 720;
+    corners2D[5][0] = labels[11] * 1280;
+    corners2D[5][1] = labels[12] * 720;
+    corners2D[6][0] = labels[13] * 1280;
+    corners2D[6][1] = labels[14] * 720;
+    corners2D[7][0] = labels[15] * 1280;
+    corners2D[7][1] = labels[16] * 720;
+    corners2D[8][0] = labels[17] * 1280;
+    corners2D[8][1] = labels[18] * 720;
+
+    R_gt, t_gt = pnp(np.array(np.transpose(np.concatenate((np.zeros((3, 1)), corners3D[:3, :]), axis=1)), dtype='float32'), corners2D, np.array(intrinsic_calibration, dtype='float32'))
+    Rt_gt = np.concatenate((R_gt, t_gt), axis=1)
+    corners2Dp = np.transpose(compute_projection(corners3D, Rt_gt, intrinsic_calibration))
+    cv2.line(img, (int(corners2Dp[0][0]), int(corners2Dp[0][1])), (int(corners2Dp[1][0]), int(corners2Dp[1][1])), [0,255,255], 2)
+    cv2.line(img, (int(corners2Dp[0][0]), int(corners2Dp[0][1])), (int(corners2Dp[2][0]), int(corners2Dp[2][1])), [0,255,255], 2)
+    cv2.line(img, (int(corners2Dp[1][0]), int(corners2Dp[1][1])), (int(corners2Dp[3][0]), int(corners2Dp[3][1])), [0,255,255], 2)
+    cv2.line(img, (int(corners2Dp[2][0]), int(corners2Dp[2][1])), (int(corners2Dp[3][0]), int(corners2Dp[3][1])), [0,255,255], 2)
+    cv2.line(img, (int(corners2Dp[0][0]), int(corners2Dp[0][1])), (int(corners2Dp[4][0]), int(corners2Dp[4][1])), [0,255,255], 2)
+    cv2.line(img, (int(corners2Dp[1][0]), int(corners2Dp[1][1])), (int(corners2Dp[5][0]), int(corners2Dp[5][1])), [0,255,255], 2)
+    cv2.line(img, (int(corners2Dp[2][0]), int(corners2Dp[2][1])), (int(corners2Dp[6][0]), int(corners2Dp[6][1])), [0,255,255], 2)
+    cv2.line(img, (int(corners2Dp[3][0]), int(corners2Dp[3][1])), (int(corners2Dp[7][0]), int(corners2Dp[7][1])), [0,255,255], 2)
+    cv2.line(img, (int(corners2Dp[4][0]), int(corners2Dp[4][1])), (int(corners2Dp[5][0]), int(corners2Dp[5][1])), [0,255,255], 2)
+    cv2.line(img, (int(corners2Dp[4][0]), int(corners2Dp[4][1])), (int(corners2Dp[6][0]), int(corners2Dp[6][1])), [0,255,255], 2)
+    cv2.line(img, (int(corners2Dp[5][0]), int(corners2Dp[5][1])), (int(corners2Dp[7][0]), int(corners2Dp[7][1])), [0,255,255], 2)
+    cv2.line(img, (int(corners2Dp[6][0]), int(corners2Dp[6][1])), (int(corners2Dp[7][0]), int(corners2Dp[7][1])), [0,255,255], 2)
+
+    # prediction
+    cv2.line(img, (int(cube[1][0]), int(cube[1][1])), (int(cube[2][0]), int(cube[2][1])), [255,0,0], 2)
+    cv2.line(img, (int(cube[1][0]), int(cube[1][1])), (int(cube[3][0]), int(cube[3][1])), [255,0,0], 2)
+    cv2.line(img, (int(cube[2][0]), int(cube[2][1])), (int(cube[4][0]), int(cube[4][1])), [255,0,0], 2)
+    cv2.line(img, (int(cube[3][0]), int(cube[3][1])), (int(cube[4][0]), int(cube[4][1])), [255,0,0], 2)
+    cv2.line(img, (int(cube[1][0]), int(cube[1][1])), (int(cube[5][0]), int(cube[5][1])), [255,0,0], 2)
+    cv2.line(img, (int(cube[2][0]), int(cube[2][1])), (int(cube[6][0]), int(cube[6][1])), [255,0,0], 2)
+    cv2.line(img, (int(cube[3][0]), int(cube[3][1])), (int(cube[7][0]), int(cube[7][1])), [255,0,0], 2)
+    cv2.line(img, (int(cube[4][0]), int(cube[4][1])), (int(cube[8][0]), int(cube[8][1])), [255,0,0], 2)
+    cv2.line(img, (int(cube[5][0]), int(cube[5][1])), (int(cube[6][0]), int(cube[6][1])), [255,0,0], 2)
+    cv2.line(img, (int(cube[5][0]), int(cube[5][1])), (int(cube[7][0]), int(cube[7][1])), [255,0,0], 2)
+    cv2.line(img, (int(cube[6][0]), int(cube[6][1])), (int(cube[8][0]), int(cube[8][1])), [255,0,0], 2)
+    cv2.line(img, (int(cube[7][0]), int(cube[7][1])), (int(cube[8][0]), int(cube[8][1])), [255,0,0], 2)
+    cv2.imwrite("data/{}/models/vis/cube_{}.png".format(name, frame), img)
+
+
+def compute_iou(name, frame, vis):
+
+    sz = [720, 1280]
+    proj = np.loadtxt("data/{}/models/vis/prj_{}.txt".format(name, frame))
+    face = np.loadtxt("data/{}/models/vis/ind_{}.txt".format(name, frame))
+
+    proj[:,0] = np.clip(np.floor(proj[:,0]+0.5),0,sz[1]-1)
+    proj[:,1] = np.clip(np.floor(proj[:,1]+0.5),0,sz[0]-1)
+    face = np.uint32(face)
+
+    proj1 = np.double(proj[face[:,0],:])
+    proj2 = np.double(proj[face[:,1],:])
+    proj3 = np.double(proj[face[:,2],:])
+
+    tr = np.concatenate( (proj1,proj2-proj1,proj3-proj1), axis=1 )
+    d0 = tr[:,2] * tr[:,5] - tr[:,3] * tr[:,4]
+    d1 = tr[:,0] * tr[:,5] - tr[:,1] * tr[:,4]
+    d2 = tr[:,0] * tr[:,3] - tr[:,1] * tr[:,2]
+    vec = np.column_stack((tr,d0,d1,d2))
+
+    n = face.shape[0]
+    zbuffer = np.zeros( (sz[0],sz[1]) )
+
+    # zbuffer
+    for k in range(0, n):
+        v0 = vec[k,0:2]; v1 = vec[k,2:4]; v2 = vec[k,4:6];
+        d0 = vec[k,6];   d1 = vec[k,7];   d2 = vec[k,8];
+        v1_ = v1 + v0
+        v2_ = v2 + v0
+
+        vmax = np.max(np.row_stack((v0,v1_,v2_)) ,axis=0)
+        vmin = np.min(np.row_stack((v0,v1_,v2_)) ,axis=0)
+        vmin[0] = np.clip(np.floor(vmin[0]),0,sz[1]-1)
+        vmin[1] = np.clip(np.floor(vmin[1]),0,sz[0]-1)
+        vmax[0] = np.clip(np.floor(vmax[0]),0,sz[1]-1)
+        vmax[1] = np.clip(np.floor(vmax[1]),0,sz[0]-1)
+        sz_k = vmax - vmin
+
+        x,y = np.meshgrid(np.linspace(vmin[0],vmax[0],np.uint32(vmax[0]-vmin[0]+1)),np.linspace(vmin[1],vmax[1],np.uint32(vmax[1]-vmin[1]+1)))
+        x_,y_ = x.T.flatten(), y.T.flatten()
+
+        if d0 == 0:
+            mask = np.zeros((np.int(sz_k[1]) + 1, np.int(sz_k[0]) + 1))
+        else:
+            a = ((x_*v2[1] - y_*v2[0]) - d1) / d0
+            b = - (x_*v1[1] - y_*v1[0] - d2) / d0
+            mask = (a>=0) & (b>=0) & (a+b<=1)
+            mask = mask.reshape(np.int(sz_k[1]+1), np.int(sz_k[0]+1), order='F').copy()
+
+        ind1,ind2,ind3 = np.zeros(2,'int32'), np.zeros(2,'int32'), np.zeros(2,'int32')
+        ind1[0] = np.int32(np.clip(v0[0]-vmin[0],0,sz_k[0]))
+        ind1[1] = np.int32(np.clip(v0[1]-vmin[1],0,sz_k[1]))
+        ind2[0] = np.int32(np.clip(v1_[0]-vmin[0],0,sz_k[0]))
+        ind2[1] = np.int32(np.clip(v1_[1]-vmin[1],0,sz_k[1]))
+        ind3[0] = np.int32(np.clip(v2_[0]-vmin[0],0,sz_k[0]))
+        ind3[1] = np.int32(np.clip(v2_[1]-vmin[1],0,sz_k[1]))
+        mask[ind1[1],ind1[0]] = 1
+        mask[ind2[1],ind2[0]] = 1
+        mask[ind3[1],ind3[0]] = 1
+        ind = np.where( (mask>0) )
+
+        zbuffer_k = zbuffer[np.int32(vmin[1]):np.int32(vmax[1]+1),np.int32(vmin[0]):np.int32(vmax[0]+1)]
+        zbuffer_k[ ind[0], ind[1] ] = k+1
+        zbuffer[np.int32(vmin[1]):np.int32(vmax[1]+1),np.int32(vmin[0]):np.int32(vmax[0]+1)] = zbuffer_k
+
+    pmask = zbuffer > 0 # zbuffer --> mask
+    if vis==True:
+        pmask_ = np.uint8(pmask)
+        cv2.imwrite("data/{}/models/vis/mask_{}.png".format(name, frame), pmask_*255)
+
+    # compute IoU score
+    gmask = np.bool_(cv2.imread("data/{}/masks/{}_00{}.png".format(name, name, frame),0)/255)
+    mask1 = pmask & gmask
+    mask2 = pmask | gmask
+    ind1 = np.where(mask1==1)
+    ind2 = np.where(mask2==1)
+    iou = len(ind1[0])/len(ind2[0])
+
+    return iou
+
+
 def compute_convexhull_iou(gt, pr):
     cross_point = compute_cross_point(gt, pr)
     inner_point = compute_inner_point(gt, pr)
