@@ -44,7 +44,7 @@ def valid(datacfg, modelcfg, weightfile):
     os.environ['CUDA_VISIBLE_DEVICES'] = gpus
     torch.cuda.manual_seed(seed)
     save            = True
-    proj            = False
+    proj            = True
     vis             = True
     num_classes     = 1
     testing_samples = 0.0
@@ -183,8 +183,6 @@ def valid(datacfg, modelcfg, weightfile):
 
                 # Projection
                 frame = valid_files[count][-8:-4]
-                if vis:
-                    visualize(name, frame, corners3D)
 
                 if proj==True:
                     makedirs(backupdir + '/vis')
@@ -215,6 +213,8 @@ def valid(datacfg, modelcfg, weightfile):
                 else:
                     iou = 0
                 iou_acc.append(iou)
+                if vis:
+                    visualize(name, frame, corners3D)
 
                 # Sum errors
                 testing_error_pixel  += pixel_dist
