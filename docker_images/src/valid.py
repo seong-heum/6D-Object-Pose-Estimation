@@ -235,20 +235,28 @@ def valid(datacfg, modelcfg, weightfile):
     px_threshold = 10 # pixel threshold for 2D reprojection error
     eps          = 1e-5
     acc3d10      = len(np.where(np.array(errs_3d) <= diam * 0.1)[0]) * 100. / (len(errs_3d)+eps)
+    iou_test25   = len(np.where(np.array(iou_acc) >= 0.25)[0]) * 100 / (len(iou_acc) + eps)
     iou_test     = len(np.where(np.array(iou_acc) >= 0.5)[0]) * 100 / (len(iou_acc) + eps)
+    iou_test75   = len(np.where(np.array(iou_acc) >= 0.75)[0]) * 100 / (len(iou_acc) + eps)
+    proj_test05  = len(np.where(np.array(errs_2d) <= 5)[0]) * 100. / (len(errs_2d)+eps)
     proj_test    = len(np.where(np.array(errs_2d) <= px_threshold)[0]) * 100. / (len(errs_2d)+eps)
+    proj_test15  = len(np.where(np.array(errs_2d) <= 15)[0]) * 100. / (len(errs_2d)+eps)
     nts = float(testing_samples)
 
     # Print test statistics
     logging('Results of {} ({})'.format(name, datetime.datetime.now()))
     logging('   Mean 2D Err. (Pixel Dist.) = {:.2f} pix.'.format(testing_error_pixel/nts))
-    logging('   Mean 3D Err. (Vertex Dist.) = {:.2f} mm.'.format(acc3d10))
-    logging('   Acc. using {} px 2D Projection = {:.2f}%'.format(px_threshold, proj_test))
-    if proj==True: logging('   Acc. using Intersection Of Union (IoU) = {:.2f}%'.format(iou_test))
+    logging('   Mean 3D Err. (Vertex Dist.) = {:.2f} mm'.format(acc3d10))
+    logging('   Acc. using  5 px. 2D Projection = {:.2f}%'.format(proj_test05))
+    logging('   Acc. using {} px. 2D Projection = {:.2f}%'.format(px_threshold, proj_test))
+    logging('   Acc. using 15 px. 2D Projection = {:.2f}%'.format(proj_test15))
+    if proj==True: logging('   Acc. using Intersection Of Union (IoU > 0.25) = {:.2f}%'.format(iou_test25))
+    if proj==True: logging('   Acc. using Intersection Of Union (IoU > 0.50) = {:.2f}%'.format(iou_test))
+    if proj==True: logging('   Acc. using Intersection Of Union (IoU > 0.75) = {:.2f}%'.format(iou_test75))
 
     if save & proj:
         fid = open("experimental_results/{}.txt".format(name), "w")
-        fid.write("{:.2f} {:.2f} {:.2f} {:.2f}".format( testing_error_pixel/nts, acc3d10, proj_test, iou_test))
+        fid.write("{:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f}".format( testing_error_pixel/nts, acc3d10, proj_test05, proj_test, proj_test20, iou_test25, iou_test, iou_test75))
         fid.close()
 
 if __name__ == '__main__':
