@@ -256,7 +256,7 @@ def valid(datacfg, modelcfg, weightfile):
 
     if save & proj:
         fid = open("experimental_results/{}.txt".format(name), "w")
-        fid.write("{:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f}".format( testing_error_pixel/nts, acc3d10, proj_test05, proj_test, proj_test20, iou_test25, iou_test, iou_test75))
+        fid.write("{:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f}".format( testing_error_pixel/nts, acc3d10, proj_test05, proj_test, proj_test15, iou_test25, iou_test, iou_test75))
         fid.close()
 
 if __name__ == '__main__':
