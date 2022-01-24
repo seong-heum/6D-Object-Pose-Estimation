@@ -387,6 +387,12 @@ def compute_iou(name, frame, vis):
     sz = [720, 1280]
     proj = np.loadtxt("data/{}/models/vis/prj_{}.txt".format(name, frame))
     face = np.loadtxt("data/{}/models/vis/ind_{}.txt".format(name, frame))
+    if vis==1:
+        proj = np.loadtxt("data/{}/models/vis/prj_{}.txt".format(name, frame))
+        face = np.loadtxt("data/{}/models/vis/ind_{}.txt".format(name, frame))
+    elif vis==2:
+        proj = np.loadtxt("data/{}/check/{}_{}_prj.txt".format(name, name, frame))
+        face = np.loadtxt("data/{}/check/{}_{}_ind.txt".format(name, name, frame))
 
     proj[:,0] = np.clip(np.floor(proj[:,0]+0.5),0,sz[1]-1)
     proj[:,1] = np.clip(np.floor(proj[:,1]+0.5),0,sz[0]-1)
@@ -448,17 +454,23 @@ def compute_iou(name, frame, vis):
         zbuffer[np.int32(vmin[1]):np.int32(vmax[1]+1),np.int32(vmin[0]):np.int32(vmax[0]+1)] = zbuffer_k
 
     pmask = zbuffer > 0 # zbuffer --> mask
-    if vis==True:
-        pmask_ = np.uint8(pmask)
-        cv2.imwrite("data/{}/models/vis/mask_{}.png".format(name, frame), pmask_*255)
 
     # compute IoU score
-    gmask = np.bool_(cv2.imread("data/{}/masks/{}_00{}.png".format(name, name, frame),0)/255)
-    mask1 = pmask & gmask
-    mask2 = pmask | gmask
+    gmask = cv2.imread("data/{}/masks/{}_00{}.png".format(name, name, frame),0)
+    gmask_ = np.bool_(gmask/255)
+    mask1 = pmask & gmask_
+    mask2 = pmask | gmask_
     ind1 = np.where(mask1==1)
     ind2 = np.where(mask2==1)
     iou = len(ind1[0])/len(ind2[0])
+
+    if vis==1:
+        pmask_ = np.uint8(pmask)
+        cv2.imwrite("data/{}/models/vis/mask_{}.png".format(name, frame), pmask_*255)
+    elif vis==2:
+        pmask_ = np.uint8(pmask)
+        cv2.imwrite("data/{}/check/{}_{}_pmask.png".format(name, name, frame), pmask_*255)
+        cv2.imwrite("data/{}/check/{}_{}_gmask.png".format(name, name, frame), gmask)
 
     return iou
 
