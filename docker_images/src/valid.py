@@ -44,7 +44,7 @@ def valid(datacfg, modelcfg, weightfile):
     os.environ['CUDA_VISIBLE_DEVICES'] = gpus
     torch.cuda.manual_seed(seed)
     save            = True
-    proj            = True
+    proj            = False
     vis             = True
     num_classes     = 1
     testing_samples = 0.0
@@ -211,7 +211,7 @@ def valid(datacfg, modelcfg, weightfile):
                     iou = compute_iou(name, frame, True)
                     print("[#{:04d}] {}: {:.2f} (pixel dist.), {:.2f} (IoU score)".format(count, frame, pixel_dist, iou))
                 else:
-                    iou = 0
+                    iou = compute_convexhull_iou(corners2D_gt, corners2D_pr)
                 iou_acc.append(iou)
                 if vis:
                     visualize(name, frame, corners3D)
@@ -254,7 +254,7 @@ def valid(datacfg, modelcfg, weightfile):
     if proj==True: logging('   Acc. using Intersection Of Union (IoU > 0.50) = {:.2f}%'.format(iou_test))
     if proj==True: logging('   Acc. using Intersection Of Union (IoU > 0.75) = {:.2f}%'.format(iou_test75))
 
-    if save & proj:
+    if save:
         fid = open("experimental_results/{}.txt".format(name), "w")
         fid.write("{:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f}".format( testing_error_pixel/nts, acc3d10, proj_test05, proj_test, proj_test15, iou_test25, iou_test, iou_test75))
         fid.close()
