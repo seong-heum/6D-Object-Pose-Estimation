@@ -169,13 +169,17 @@ if __name__ == '__main__':
     file.close()
 
     eps = 1e-5
-    rep_test = len(np.where(np.array(rep_acc) <= 7.5)[0]) * 100. / (len(rep_acc) + eps)
-    iou_test = len(np.where(np.array(iou_acc) >= 0.75)[0]) * 100 / (len(iou_acc) + eps)
+    rep_test05 = len(np.where(np.array(rep_acc) <= 5)[0]) * 100. / (len(rep_acc) + eps)
+    rep_test10 = len(np.where(np.array(rep_acc) <= 10)[0]) * 100. / (len(rep_acc) + eps)
+    rep_test15 = len(np.where(np.array(rep_acc) <= 15)[0]) * 100. / (len(rep_acc) + eps)
+    iou_test25 = len(np.where(np.array(iou_acc) >= 0.25)[0]) * 100 / (len(iou_acc) + eps)
+    iou_test50 = len(np.where(np.array(iou_acc) >= 0.50)[0]) * 100 / (len(iou_acc) + eps)
+    iou_test75 = len(np.where(np.array(iou_acc) >= 0.75)[0]) * 100 / (len(iou_acc) + eps)
     file = open("experimental_results/{}_check.txt".format(name), "w")
-    file.write("{:>10.2f} {:>10.2f}".format(rep_test, iou_test))
+    file.write("{:>10.2f} {:>10.2f} {:>10.2f} {:>10.2f} {:>10.2f} {:>10.2f}".format(rep_test05, rep_test10, rep_test15, iou_test25, iou_test50, iou_test75))
     file.close()
 
     file = open("experimental_results/{}_check/{}_check_summary.txt".format(name, name), "w")
-    file.write("{:>10.2f} {:>10.2f}".format(rep_test, iou_test))
+    file.write("{:>10.2f} {:>10.2f} {:>10.2f} {:>10.2f} {:>10.2f} {:>10.2f}".format(rep_test05, rep_test10, rep_test15, iou_test25, iou_test50, iou_test75))
     file.close()
-    print("{}: {:>10.2f} {:>10.2f}".format(name, rep_test, iou_test))
+    print("{}: {:>10.2f} {:>10.2f} {:>10.2f} {:>10.2f} {:>10.2f} {:>10.2f}".format(rep_test05, rep_test10, rep_test15, iou_test25, iou_test50, iou_test75))
