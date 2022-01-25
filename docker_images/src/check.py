@@ -38,8 +38,9 @@ if __name__ == '__main__':
     for count in range(0,nts):
     #for count in range(0,5):
 
-        rind = random.randint(0, nts-1)
-        frame = valid_files[rind][-8:-4]
+        #rind = random.randint(0, nts-1)
+        #frame = valid_files[rind][-8:-4]
+        frame = valid_files[count][-8:-4]
 
         img = cv2.imread("data/{}/images/{}_00{}.png".format(name, name, frame))
         f_cam = open("data/{}/cams/{}_00{}.txt".format(name, name, frame))
