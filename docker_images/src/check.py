@@ -182,4 +182,4 @@ if __name__ == '__main__':
     file = open("experimental_results/{}_check/{}_check_summary.txt".format(name, name), "w")
     file.write("{:>10.2f} {:>10.2f} {:>10.2f} {:>10.2f} {:>10.2f} {:>10.2f}".format(rep_test05, rep_test10, rep_test15, iou_test25, iou_test50, iou_test75))
     file.close()
-    print("{}: {:>10.2f} {:>10.2f} {:>10.2f} {:>10.2f} {:>10.2f} {:>10.2f}".format(rep_test05, rep_test10, rep_test15, iou_test25, iou_test50, iou_test75))
+    print("{}: {:>10.2f} {:>10.2f} {:>10.2f} {:>10.2f} {:>10.2f} {:>10.2f}".format(name, rep_test05, rep_test10, rep_test15, iou_test25, iou_test50, iou_test75))
