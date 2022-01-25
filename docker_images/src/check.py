@@ -35,8 +35,8 @@ if __name__ == '__main__':
 
     nts = len(valid_files)
     file = open("experimental_results/{}_check/{}_check.txt".format(name, name), "w")
-    #for count in range(0,nts):
-    for count in range(0,5):
+    for count in range(0,nts):
+    #for count in range(0,5):
 
         rind = random.randint(0, nts-1)
         frame = valid_files[rind][-8:-4]
