@@ -250,10 +250,7 @@ def test(epoch, niter):
     px_threshold = 5 # 5 pixel threshold for 2D reprojection error is standard in recent sota 6D object pose estimation works
     eps          = 1e-5
     acc          = len(np.where(np.array(errs_2d) <= px_threshold)[0]) * 100. / (len(errs_2d)+eps)
-    acc3d        = len(np.where(np.array(errs_3d) <= vx_threshold)[0]) * 100. / (len(errs_3d)+eps)
     acc5cm5deg   = len(np.where((np.array(errs_trans) <= 0.05) & (np.array(errs_angle) <= 5))[0]) * 100. / (len(errs_trans)+eps)
-    corner_acc   = len(np.where(np.array(errs_corner2D) <= px_threshold)[0]) * 100. / (len(errs_corner2D)+eps)
-    mean_err_2d  = np.mean(errs_2d)
     mean_corner_err_2d = np.mean(errs_corner2D)
     nts = float(testing_samples)
 
@@ -269,7 +266,6 @@ def test(epoch, niter):
     # Print test statistics
     logging("   Mean corner error is %f" % (mean_corner_err_2d))
     logging('   Acc using {} px 2D Projection = {:.2f}%'.format(px_threshold, acc))
-    logging('   Acc using {} vx 3D Transformation = {:.2f}%'.format(vx_threshold, acc3d))
     logging('   Acc using 5 cm 5 degree metric = {:.2f}%'.format(acc5cm5deg))
     logging('   Translation error: %f, angle error: %f' % (testing_error_trans/(nts+eps), testing_error_angle/(nts+eps)) )
 
@@ -303,7 +299,6 @@ if __name__ == "__main__":
     meshname      = data_options['mesh']
     num_workers   = int(data_options['num_workers'])
     backupdir     = data_options['backup']
-    vx_threshold  = float(data_options['diam']) * 0.1 # threshold for the ADD metric
     if not os.path.exists(backupdir):
         makedirs(backupdir)
     batch_size    = int(net_options['batch'])

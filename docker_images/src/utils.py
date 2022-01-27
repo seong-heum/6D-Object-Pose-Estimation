@@ -385,8 +385,6 @@ def visualize(name, frame, corners3D):
 def compute_iou(name, frame, vis):
 
     sz = [720, 1280]
-    proj = np.loadtxt("data/{}/models/vis/prj_{}.txt".format(name, frame))
-    face = np.loadtxt("data/{}/models/vis/ind_{}.txt".format(name, frame))
     if vis==1:
         proj = np.loadtxt("data/{}/models/vis/prj_{}.txt".format(name, frame))
         face = np.loadtxt("data/{}/models/vis/ind_{}.txt".format(name, frame))
