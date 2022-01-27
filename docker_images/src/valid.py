@@ -44,7 +44,7 @@ def valid(datacfg, modelcfg, weightfile):
     os.environ['CUDA_VISIBLE_DEVICES'] = gpus
     torch.cuda.manual_seed(seed)
     save            = True
-    proj            = False
+    proj            = True
     vis             = True
     num_classes     = 1
     testing_samples = 0.0
@@ -52,6 +52,7 @@ def valid(datacfg, modelcfg, weightfile):
     # To save
     testing_error_pixel = 0.0
     iou_acc = []
+    iou_convex_acc = []
     errs_2d = []
     errs_3d = []
 
@@ -209,10 +210,14 @@ def valid(datacfg, modelcfg, weightfile):
 
                     ## Compute IoU
                     iou = compute_iou(name, frame, True)
+                    iou_convex = compute_convexhull_iou(corners2D_gt, corners2D_pr)
                     print("[#{:04d}] {}: {:.2f} (pixel dist.), {:.2f} (IoU score)".format(count, frame, pixel_dist, iou))
                 else:
-                    iou = compute_convexhull_iou(corners2D_gt, corners2D_pr)
+                    iou_convex = compute_convexhull_iou(corners2D_gt, corners2D_pr)
+                    iou = iou_convex
+
                 iou_acc.append(iou)
+                iou_convex_acc.append(iou_convex)
                 if vis:
                     visualize(name, frame, corners3D)
 
@@ -235,12 +240,14 @@ def valid(datacfg, modelcfg, weightfile):
     px_threshold = 10 # pixel threshold for 2D reprojection error
     eps          = 1e-5
     acc3d10      = len(np.where(np.array(errs_3d) <= diam * 0.1)[0]) * 100. / (len(errs_3d)+eps)
+    iou_test_c   = len(np.where(np.array(iou_convex_acc) >= 0.5)[0]) * 100 / (len(iou_convex_acc) + eps)
     iou_test25   = len(np.where(np.array(iou_acc) >= 0.25)[0]) * 100 / (len(iou_acc) + eps)
     iou_test     = len(np.where(np.array(iou_acc) >= 0.5)[0]) * 100 / (len(iou_acc) + eps)
     iou_test75   = len(np.where(np.array(iou_acc) >= 0.75)[0]) * 100 / (len(iou_acc) + eps)
     proj_test05  = len(np.where(np.array(errs_2d) <= 5)[0]) * 100. / (len(errs_2d)+eps)
     proj_test    = len(np.where(np.array(errs_2d) <= px_threshold)[0]) * 100. / (len(errs_2d)+eps)
     proj_test15  = len(np.where(np.array(errs_2d) <= 15)[0]) * 100. / (len(errs_2d)+eps)
+    proj_test20  = len(np.where(np.array(errs_2d) <= 20)[0]) * 100. / (len(errs_2d)+eps)
     nts = float(testing_samples)
 
     # Print test statistics
@@ -250,6 +257,8 @@ def valid(datacfg, modelcfg, weightfile):
     logging('   Acc. using  5 px. 2D Projection = {:.2f}%'.format(proj_test05))
     logging('   Acc. using {} px. 2D Projection = {:.2f}%'.format(px_threshold, proj_test))
     logging('   Acc. using 15 px. 2D Projection = {:.2f}%'.format(proj_test15))
+    logging('   Acc. using 20 px. 2D Projection = {:.2f}%'.format(proj_test20))
+    logging('   Acc. using Intersection Of Union (IoU, convex) = {:.2f}%'.format(iou_test_c))
     if proj==True: logging('   Acc. using Intersection Of Union (IoU > 0.25) = {:.2f}%'.format(iou_test25))
     if proj==True: logging('   Acc. using Intersection Of Union (IoU > 0.50) = {:.2f}%'.format(iou_test))
     if proj==True: logging('   Acc. using Intersection Of Union (IoU > 0.75) = {:.2f}%'.format(iou_test75))
