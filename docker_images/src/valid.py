@@ -252,7 +252,6 @@ def valid(datacfg, modelcfg, weightfile):
     # Print test statistics
     logging('Results of {} ({})'.format(name, datetime.datetime.now()))
     logging('   Mean 2D Err. (Pixel Dist.) = {:.2f} pix.'.format(testing_error_pixel/nts))
-    logging('   Mean 3D Err. (Vertex Dist.) = {:.2f} mm'.format(np.mean(errs_3d)))
     logging('   Acc. using  5 px. 2D Projection = {:.2f}%'.format(proj_test05))
     logging('   Acc. using {} px. 2D Projection = {:.2f}%'.format(px_threshold, proj_test))
     logging('   Acc. using 15 px. 2D Projection = {:.2f}%'.format(proj_test15))
@@ -264,7 +263,7 @@ def valid(datacfg, modelcfg, weightfile):
 
     if save:
         fid = open("experimental_results/{}.txt".format(name), "w")
-        fid.write("{:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f}".format( testing_error_pixel/nts, np.mean(errs_3d), proj_test05, proj_test, proj_test15, proj_test20, iou_test_c, iou_test25, iou_test, iou_test75))
+        fid.write("{:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f} {:.2f}".format( testing_error_pixel/nts, proj_test05, proj_test, proj_test15, proj_test20, iou_test_c, iou_test25, iou_test, iou_test75))
         fid.close()
 
 if __name__ == '__main__':
