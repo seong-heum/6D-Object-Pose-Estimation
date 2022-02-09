@@ -275,7 +275,7 @@ def compute_cross_point(gt, pr):
 
 def visualize(name, frame, corners3D):
     img = cv2.imread("data/{}/images/{}_00{}.png".format(name, name, frame))
-    cube = np.loadtxt("data/{}/models/vis/corners_{}.txt".format(name, frame))
+    cube = np.loadtxt("experimental_results/{}_result/corners_{}.txt".format(name, frame))
 
     f_cam = open("data/{}/cams/{}_00{}.txt".format(name, name, frame))
     rdata = f_cam.readlines()
@@ -353,18 +353,18 @@ def visualize(name, frame, corners3D):
     R_gt, t_gt = pnp(np.array(np.transpose(np.concatenate((np.zeros((3, 1)), corners3D[:3, :]), axis=1)), dtype='float32'), corners2D, np.array(intrinsic_calibration, dtype='float32'))
     Rt_gt = np.concatenate((R_gt, t_gt), axis=1)
     corners2Dp = np.transpose(compute_projection(corners3D, Rt_gt, intrinsic_calibration))
-    cv2.line(img, (int(corners2Dp[0][0]), int(corners2Dp[0][1])), (int(corners2Dp[1][0]), int(corners2Dp[1][1])), [0,255,255], 2)
-    cv2.line(img, (int(corners2Dp[0][0]), int(corners2Dp[0][1])), (int(corners2Dp[2][0]), int(corners2Dp[2][1])), [0,255,255], 2)
-    cv2.line(img, (int(corners2Dp[1][0]), int(corners2Dp[1][1])), (int(corners2Dp[3][0]), int(corners2Dp[3][1])), [0,255,255], 2)
-    cv2.line(img, (int(corners2Dp[2][0]), int(corners2Dp[2][1])), (int(corners2Dp[3][0]), int(corners2Dp[3][1])), [0,255,255], 2)
-    cv2.line(img, (int(corners2Dp[0][0]), int(corners2Dp[0][1])), (int(corners2Dp[4][0]), int(corners2Dp[4][1])), [0,255,255], 2)
-    cv2.line(img, (int(corners2Dp[1][0]), int(corners2Dp[1][1])), (int(corners2Dp[5][0]), int(corners2Dp[5][1])), [0,255,255], 2)
-    cv2.line(img, (int(corners2Dp[2][0]), int(corners2Dp[2][1])), (int(corners2Dp[6][0]), int(corners2Dp[6][1])), [0,255,255], 2)
-    cv2.line(img, (int(corners2Dp[3][0]), int(corners2Dp[3][1])), (int(corners2Dp[7][0]), int(corners2Dp[7][1])), [0,255,255], 2)
-    cv2.line(img, (int(corners2Dp[4][0]), int(corners2Dp[4][1])), (int(corners2Dp[5][0]), int(corners2Dp[5][1])), [0,255,255], 2)
-    cv2.line(img, (int(corners2Dp[4][0]), int(corners2Dp[4][1])), (int(corners2Dp[6][0]), int(corners2Dp[6][1])), [0,255,255], 2)
-    cv2.line(img, (int(corners2Dp[5][0]), int(corners2Dp[5][1])), (int(corners2Dp[7][0]), int(corners2Dp[7][1])), [0,255,255], 2)
-    cv2.line(img, (int(corners2Dp[6][0]), int(corners2Dp[6][1])), (int(corners2Dp[7][0]), int(corners2Dp[7][1])), [0,255,255], 2)
+    cv2.line(img, (int(corners2Dp[0][0]), int(corners2Dp[0][1])), (int(corners2Dp[1][0]), int(corners2Dp[1][1])), [255,0,255], 2)
+    cv2.line(img, (int(corners2Dp[0][0]), int(corners2Dp[0][1])), (int(corners2Dp[2][0]), int(corners2Dp[2][1])), [255,0,255], 2)
+    cv2.line(img, (int(corners2Dp[1][0]), int(corners2Dp[1][1])), (int(corners2Dp[3][0]), int(corners2Dp[3][1])), [255,0,255], 2)
+    cv2.line(img, (int(corners2Dp[2][0]), int(corners2Dp[2][1])), (int(corners2Dp[3][0]), int(corners2Dp[3][1])), [255,0,255], 2)
+    cv2.line(img, (int(corners2Dp[0][0]), int(corners2Dp[0][1])), (int(corners2Dp[4][0]), int(corners2Dp[4][1])), [255,0,255], 2)
+    cv2.line(img, (int(corners2Dp[1][0]), int(corners2Dp[1][1])), (int(corners2Dp[5][0]), int(corners2Dp[5][1])), [255,0,255], 2)
+    cv2.line(img, (int(corners2Dp[2][0]), int(corners2Dp[2][1])), (int(corners2Dp[6][0]), int(corners2Dp[6][1])), [255,0,255], 2)
+    cv2.line(img, (int(corners2Dp[3][0]), int(corners2Dp[3][1])), (int(corners2Dp[7][0]), int(corners2Dp[7][1])), [255,0,255], 2)
+    cv2.line(img, (int(corners2Dp[4][0]), int(corners2Dp[4][1])), (int(corners2Dp[5][0]), int(corners2Dp[5][1])), [255,0,255], 2)
+    cv2.line(img, (int(corners2Dp[4][0]), int(corners2Dp[4][1])), (int(corners2Dp[6][0]), int(corners2Dp[6][1])), [255,0,255], 2)
+    cv2.line(img, (int(corners2Dp[5][0]), int(corners2Dp[5][1])), (int(corners2Dp[7][0]), int(corners2Dp[7][1])), [255,0,255], 2)
+    cv2.line(img, (int(corners2Dp[6][0]), int(corners2Dp[6][1])), (int(corners2Dp[7][0]), int(corners2Dp[7][1])), [255,0,255], 2)
 
     # prediction
     cv2.line(img, (int(cube[1][0]), int(cube[1][1])), (int(cube[2][0]), int(cube[2][1])), [255,0,0], 2)
@@ -379,15 +379,14 @@ def visualize(name, frame, corners3D):
     cv2.line(img, (int(cube[5][0]), int(cube[5][1])), (int(cube[7][0]), int(cube[7][1])), [255,0,0], 2)
     cv2.line(img, (int(cube[6][0]), int(cube[6][1])), (int(cube[8][0]), int(cube[8][1])), [255,0,0], 2)
     cv2.line(img, (int(cube[7][0]), int(cube[7][1])), (int(cube[8][0]), int(cube[8][1])), [255,0,0], 2)
-    cv2.imwrite("data/{}/models/vis/cube_{}.png".format(name, frame), img)
-
+    cv2.imwrite("experimental_results/{}_result/cube_{}.png".format(name, frame), img)
 
 def compute_iou(name, frame, vis):
 
     sz = [720, 1280]
     if vis==1:
-        proj = np.loadtxt("data/{}/models/vis/prj_{}.txt".format(name, frame))
-        face = np.loadtxt("data/{}/models/vis/ind_{}.txt".format(name, frame))
+        proj = np.loadtxt("experimental_results/{}_result/prj_{}.txt".format(name, frame))
+        face = np.loadtxt("experimental_results/{}_result/ind_{}.txt".format(name, frame))
     elif vis==2:
         proj = np.loadtxt("data/{}/check/{}_{}_prj.txt".format(name, name, frame))
         face = np.loadtxt("data/{}/check/{}_{}_ind.txt".format(name, name, frame))
@@ -464,7 +463,7 @@ def compute_iou(name, frame, vis):
 
     if vis==1:
         pmask_ = np.uint8(pmask)
-        cv2.imwrite("data/{}/models/vis/mask_{}.png".format(name, frame), pmask_*255)
+        cv2.imwrite("experimental_results/{}_result/mask_{}.png".format(name, frame), pmask_*255)
     elif vis==2:
         pmask_ = np.uint8(pmask)
         cv2.imwrite("data/{}/check/{}_{}_pmask.png".format(name, name, frame), pmask_*255)

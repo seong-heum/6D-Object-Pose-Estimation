@@ -99,7 +99,7 @@ def valid(datacfg, modelcfg, weightfile):
     class_name = test_loader.dataset.lines[0].split('/')[-1].split('_')[0]
 
     if save:
-        makedirs('experimental_results')
+        if (os.path.isdir("experimental_results") == 0): makedirs('experimental_results')
         c = open('experimental_results/'+class_name+'.csv', 'w', encoding="UTF-8")
         c.write('Data ID, x0-GT, y0-GT, x1-GT, y1-GT, x2-GT, y2-GT, x3-GT, y3-GT, x4-GT, y4-GT, x5-GT, y5-GT, x6-GT, y6-GT, x7-GT, y7-GT, x8-GT, y8-GT, x0-predict, y0-predict, x1-predict, y1-predict, x2-predict, y2-predict, x3-predict, y3-predict, x4-predict, y4-predict, x5-predict, y5-predict, x6-predict, y6-predict, x7-predict, y7-predict, x8-predict, y8-predict, pixel error, projection test, IoU score, IoU test, \n')
 
@@ -186,15 +186,17 @@ def valid(datacfg, modelcfg, weightfile):
                 frame = valid_files[count][-8:-4]
 
                 if proj==True:
-                    makedirs(backupdir + '/vis')
-                    np.savetxt(backupdir + '/vis/corners_' + valid_files[count][-8:-3] + 'txt', np.array(corners2D_pr, dtype='float32'))
-                    np.savetxt(backupdir + '/vis/R_' + valid_files[count][-8:-3] + 'txt', np.array(R_pr, dtype='float32'))
-                    np.savetxt(backupdir + '/vis/t_' + valid_files[count][-8:-3] + 'txt', np.array(t_pr, dtype='float32'))
+                    if(os.path.isdir("experimental_results")==0): makedirs('experimental_results')
+                    if(os.path.isdir("experimental_results/" + name + "_result") == 0): os.mkdir("experimental_results/" + name + "_result")
+
+                    np.savetxt("experimental_results/" + name + "_result" + "/corners_" + valid_files[count][-8:-3] + "txt", np.array(corners2D_pr, dtype='float32'))
+                    np.savetxt("experimental_results/" + name + "_result" + "/R_" + valid_files[count][-8:-3] + "txt", np.array(R_pr, dtype='float32'))
+                    np.savetxt("experimental_results/" + name + "_result" + "/t_" + valid_files[count][-8:-3] + "txt", np.array(t_pr, dtype='float32'))
                     K = np.array([[fx, 0, u0], [0, fy, v0], [0, 0, 1]])
-                    R = np.loadtxt(backupdir + "/vis/R_{}.txt".format(frame))
-                    t = np.loadtxt(backupdir + "/vis/t_{}.txt".format(frame))
+                    R = np.loadtxt("experimental_results/" + name + "_result" + "/R_{}.txt".format(frame))
+                    t = np.loadtxt("experimental_results/" + name + "_result" + "/t_{}.txt".format(frame))
                     RT = np.vstack([R.T, t]).T
-                    f_prj = open(backupdir + "/vis/prj_{}.txt".format(frame), 'w')
+                    f_prj = open("experimental_results/" + name + "_result" + "/prj_{}.txt".format(frame), 'w')
                     for i in range(vertices.shape[1]):
                         p_n = RT @ np.transpose(vertices[:,i])
                         p = K @ np.transpose([ p_n[0]/p_n[2], p_n[1]/p_n[2], 1 ])
@@ -203,7 +205,7 @@ def valid(datacfg, modelcfg, weightfile):
                         f_prj.write("{} {}\n".format(p_x, p_y))
                     f_prj.close()
 
-                    f_ind = open(backupdir + "/vis/ind_{}.txt".format(frame), 'w')
+                    f_ind = open("experimental_results/" + name + "_result" + "/ind_{}.txt".format(frame), 'w')
                     for j in range(indices.shape[1]):
                         f_ind.write("{} {} {}\n".format(int(indices[0,j]), int(indices[1,j]), int(indices[2,j])))
                     f_ind.close()
