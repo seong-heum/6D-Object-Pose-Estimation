@@ -262,7 +262,7 @@ def valid(datacfg, modelcfg, weightfile):
     if proj==True: logging('   Acc. using Intersection Of Union (IoU > 0.25) = {:.2f}%'.format(iou_test25))
     if proj==True: logging('   Acc. using Intersection Of Union (IoU > 0.50) = {:.2f}%'.format(iou_test))
     if proj==True: logging('   Acc. using Intersection Of Union (IoU > 0.75) = {:.2f}%'.format(iou_test75))
-    logging('Reproj. test = {:.2f}%, IoU test = {:.2f}%'.format(proj_test20, iou_test_c))
+    logging('Reproj. test: {:.2f}%, IoU test: {:.2f}%'.format(proj_test20, iou_test_c))
 
     if save:
         fid = open("experimental_results/{}.txt".format(name), "w")
