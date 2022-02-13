@@ -46,13 +46,17 @@ if [ $1 == "report" ]; then
 		echo ""  >> "report.txt"
 	done
 else
+	if [ ! -d "$DATA" ]; then
+		mkdir -pv $DATA
+	fi	
+
 	for i in ${TESTCASE[@]}
 	do
 		if [ $1 -eq "${i}" ]; then
 		   if [ ! -d "$DATA/${i}" ]; then
 		   	   echo prepare ${i}
 		   	   if [ -f "$DATA/${i}.zip" ]; then
-		   	   	  mkdir $DATA/${i}
+		   	   	  mkdir -pv $DATA/${i}
 				  mv $DATA/${1}.zip $DATA/${i}/
 		   	   	  cd $DATA/${i}
 		   	   	  unzip ${i}.zip
