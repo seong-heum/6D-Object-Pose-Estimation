@@ -213,7 +213,7 @@ def valid(datacfg, modelcfg, weightfile):
                     ## Compute IoU
                     iou = compute_iou(name, frame, True)
                     iou_convex = compute_convexhull_iou(corners2D_gt, corners2D_pr)
-                    print("[#{:04d}] {}: {:.2f} (pixel dist.), {:.2f} (IoU score)".format(count, frame, pixel_dist, iou))
+                    print("[#{:04d}] {}: {:.2f} (pixel dist.), {:.2f} (IoU score)".format(count, frame, pixel_dist, iou_convex))
                 else:
                     iou_convex = compute_convexhull_iou(corners2D_gt, corners2D_pr)
                     iou = iou_convex
@@ -229,8 +229,8 @@ def valid(datacfg, modelcfg, weightfile):
                 if save:
                     # csv write
                     context = data_id + ',' + gt + predict + '{:.2f}, {}, {:.2f}, {}\n'.format(pixel_dist,
-                                                                                               pixel_dist <= 10, iou,
-                                                                                               iou >= 0.5)
+                                                                                               pixel_dist <= 10, iou_convex,
+                                                                                               iou_convex >= 0.5)
                     c.write(context)
 
                 count = count + 1
@@ -252,7 +252,7 @@ def valid(datacfg, modelcfg, weightfile):
     nts = float(testing_samples)
 
     # Print test statistics
-    logging('Results of {} ({})'.format(name, datetime.datetime.now()))
+    logging('Results of {} ({}):'.format(name, datetime.datetime.now()))
     logging('   Mean 2D Err. (Pixel Dist.) = {:.2f} pix.'.format(testing_error_pixel/nts))
     logging('   Acc. using  5 px. 2D Projection = {:.2f}%'.format(proj_test05))
     logging('   Acc. using {} px. 2D Projection = {:.2f}%'.format(px_threshold, proj_test))
@@ -262,6 +262,7 @@ def valid(datacfg, modelcfg, weightfile):
     if proj==True: logging('   Acc. using Intersection Of Union (IoU > 0.25) = {:.2f}%'.format(iou_test25))
     if proj==True: logging('   Acc. using Intersection Of Union (IoU > 0.50) = {:.2f}%'.format(iou_test))
     if proj==True: logging('   Acc. using Intersection Of Union (IoU > 0.75) = {:.2f}%'.format(iou_test75))
+    logging('Reproj. test = {:.2f}%, IoU test = {:.2f}%'.format(proj_test20, iou_test_c))
 
     if save:
         fid = open("experimental_results/{}.txt".format(name), "w")
