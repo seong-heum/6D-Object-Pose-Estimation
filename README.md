@@ -12,7 +12,7 @@
 
 ## * 객체별 샘플링 평가 (단계별 실행/분석)
 ### 1. docker image 생성 --> build.sh
-      ./build.sh <br>
+      ./build.sh
 또는, <br>
 
       wget https://www.dropbox.com/s/o16mx914up6oen2/nia-ssp.tar?dl=0 -O docker_images/nia-ssp.tar
