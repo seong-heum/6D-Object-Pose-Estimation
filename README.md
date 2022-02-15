@@ -10,7 +10,7 @@
       ./run.sh all
 <br>
 
-## * 객체별 샘플링 평가
+## * 객체별 샘플링 평가 (단계별 실행/분석
 ### 1. docker image 생성 --> build.sh
       ./build.sh <br>
 또는, <br>
@@ -22,7 +22,8 @@
 <br>
 
 ### 2. 객체 ID 별 자료 준비 (샘플)--> prepare.sh
-> ./prepare.sh 100211 <br>
+
+      ./prepare.sh 070308
 
 (평가용 데이터셋) ./test_datasets/ <br>
 * 0101:	남자<br>
@@ -370,7 +371,8 @@
 <br>
 
 ### 3. 객체 ID 별 유효성 검증 --> test.sh
-> ./test.sh 100211 <br>
+
+      ./test.sh 070308
 
 (평가 결과/로그 파일) ./experimental_results/ <br>
 <br>
