@@ -381,4 +381,5 @@
 https://github.com/seongheum-ssu/nia-ssp/tree/main/docker_images/doc
 
 ## * 참고자료
-
+[1] URL: https://github.com/microsoft/singleshotpose 
+[2] URL: 
