@@ -381,7 +381,7 @@
 https://github.com/seongheum-ssu/nia-ssp/tree/main/docker_images/doc
 
 ## * Acknowledgement
-This work was supported by National Information Society Agency (NIA) in South Korea (21_1-29-47).
+This work was supported by National Information Society Agency (NIA) in South Korea (21_1-29-47). The dataset was initially created by (주)미소정보기술, Matrix Research, and (주)이오이스 in South Korea.
 
 ## * 참고자료
 [1] Tekin et al., "Real-Time Seamless Single Shot 6D Object Pose Prediction," IEEE Conference on Computer Vision and Pattern Recognition (CVPR) 2018 <br>
