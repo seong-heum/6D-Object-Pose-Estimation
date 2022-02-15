@@ -380,6 +380,9 @@
 ## * 유효성 검증 보고서
 https://github.com/seongheum-ssu/nia-ssp/tree/main/docker_images/doc
 
+## * Acknowledge
+This work was supported by National Information Society Agency (NIA) in South Korea (21_1-29-47).
+
 ## * 참고자료
-[1] URL: https://github.com/microsoft/singleshotpose 
-[2] URL: 
+[1] Tekin et al., "Real-Time Seamless Single Shot 6D Object Pose Prediction," IEEE Conference on Computer Vision and Pattern Recognition (CVPR) 2018 <br>
+[2] URL: https://github.com/seongheum-ssu/nia_singleshotpose <br>
