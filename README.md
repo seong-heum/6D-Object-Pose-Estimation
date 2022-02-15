@@ -10,7 +10,7 @@
       ./run.sh all
 <br>
 
-## * 객체별 샘플링 평가 (단계별 실행/분석
+## * 객체별 샘플링 평가 (단계별 실행/분석)
 ### 1. docker image 생성 --> build.sh
       ./build.sh <br>
 또는, <br>
