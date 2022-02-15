@@ -380,7 +380,7 @@
 ## * 유효성 검증 보고서
 https://github.com/seongheum-ssu/nia-ssp/tree/main/docker_images/doc
 
-## * Acknowledge
+## * Acknowledgement
 This work was supported by National Information Society Agency (NIA) in South Korea (21_1-29-47).
 
 ## * 참고자료
