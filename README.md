@@ -26,7 +26,7 @@
       ./prepare.sh 070308
 
 (평가용 데이터셋) ./test_datasets/ <br>
-* 0101:	**남자**<br>
+* **0101:	남자**<br>
 [010101](https://www.dropbox.com/s/9snrohm0hni10ew/010101.zip?dl=0): 20대남자<br>
 [010102](https://www.dropbox.com/s/jgvzk3uvcluwih7/010102.zip?dl=0): 30대남자<br>
 [010103](https://www.dropbox.com/s/d3s0sifm4dyvic4/010103.zip?dl=0): 40대남자<br>
