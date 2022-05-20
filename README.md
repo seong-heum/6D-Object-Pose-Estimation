@@ -381,3 +381,4 @@ This work was supported by National Information Society Agency (NIA) in South Ko
 
 ## * 참고자료
 [1] Tekin et al., "Real-Time Seamless Single Shot 6D Object Pose Prediction," IEEE Conference on Computer Vision and Pattern Recognition (CVPR) 2018 <br>
+[2] Singleshotpose URL: https://github.com/microsoft/singleshotpose
