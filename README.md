@@ -1,10 +1,9 @@
-# 객체 3D 데이터 유효성 검증
-## https://github.com/seongheum-ssu/nia-ssp
+# NIA 데이터 정리 중 (2022/05/20~)
 <br>
 
 ## * 전체/객체별 실행 (Quick start)
-      git clone https://github.com/seongheum-ssu/nia-ssp
-      cd nia-ssp
+      git clone https://github.com/seong-heum/6D-Object-Pose-Estimation
+      cd 6D-Object-Pose-Estimation
       ./build.sh
       ./run.sh 070308
       ./run.sh all
@@ -370,19 +369,15 @@
 [110113](https://www.dropbox.com/s/3sz7xyq2wykddzr/110113.zip?dl=0): 압박붕대<br>
 <br>
 
-### 3. 객체 ID 별 유효성 검증 --> test.sh
+### 3. 객체 ID 별 검증 --> test.sh
 
       ./test.sh 070308
 
 (평가 결과/로그 파일) ./experimental_results/ <br>
 <br>
 
-## * 유효성 검증 보고서
-https://github.com/seongheum-ssu/nia-ssp/tree/main/docker_images/doc
-
 ## * Acknowledgement
-This work was supported by National Information Society Agency (NIA) in South Korea (21_1-29-47). The dataset was initially created by (주)미소정보기술, Matrix Research, and (주)이오이스 in South Korea.
+This work was supported by National Information Society Agency (NIA) in South Korea (21_1-29-47). The dataset was initially created by (주)미소정보기술, 매트릭스 리서치, and (주)이오이스 in South Korea.
 
 ## * 참고자료
 [1] Tekin et al., "Real-Time Seamless Single Shot 6D Object Pose Prediction," IEEE Conference on Computer Vision and Pattern Recognition (CVPR) 2018 <br>
-[2] URL: https://github.com/seongheum-ssu/nia_singleshotpose <br>
